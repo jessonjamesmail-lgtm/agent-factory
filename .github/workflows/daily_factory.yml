@@ -19,9 +19,9 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Gemini SDK
-        run: pip install google-genai
-
+ - name: Install OpenAI SDK
+  run: pip install openai
+  
       - name: Run the 15-Agent Factory
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

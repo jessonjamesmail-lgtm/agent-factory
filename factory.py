@@ -1,39 +1,60 @@
 import os, json, pathlib
 from datetime import datetime, timezone
-from google import genai
-from google.genai import types
+from openai import OpenAI
 
-client = genai.Client()
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.environ.get("GEMINI_API_KEY"), # This grabs your GitHub Secret key automatically!
+)
+
 APP_ROOT = pathlib.Path("./output_app")
 REGISTRY_PATH = APP_ROOT / "tools_registry.json"
 STRIPE_PAYMENT_LINK = "https://buy.stripe.com/YOUR_LIVE_STRIPE_LINK"
 
 AGENTS = {
-    "1_orchestrator": ("gemini-3.8-flash", "You are Agent 1 (Orchestrator). Ensure the tool spec is 100% stateless and requires zero database."),
-    "2_seo_scout": ("gemini-3.8-flash", "You are Agent 2 (SEO Scout). Output ONE high-traffic, low-competition micro-tool niche (calculator, converter, formatter). Do NOT repeat existing slugs."),
-    "3_pm_spec": ("gemini-3.8-flash", "You are Agent 3 (PM). Turn the SEO niche into a strict functional specification for a single-page web tool."),
-    "4_architect": ("gemini-3.8-flash", "You are Agent 4 (Architect). Define component state, inputs, outputs, and edge cases."),
-    "5_algo_designer": ("gemini-3.8-flash", "You are Agent 5 (Algorithm Designer). Write exact formulas and transformation logic."),
-    "6_ui_designer": ("gemini-3.8-flash", "You are Agent 6 (UI/UX). Specify a clean dark-mode Tailwind CSS layout with a '← Back to All Tools' link to `/`."),
-    "7_frontend_lead": ("gemini-3.8-flash", "You are Agent 7 (Frontend Lead). Write a complete Next.js App Router React page (`page.tsx`) using `'use client'` and Tailwind CSS. No external icon libraries. Write 100% working code."),
-    "8_api_lead": ("gemini-3.8-flash", "You are Agent 8 (API Lead). Write a matching Next.js API route (`route.ts`) exporting `POST` using `NextResponse`."),
-    "9_monetization": ("gemini-3.8-flash", f"You are Agent 9 (Monetization). Inject a localStorage freemium gate (3 free uses in `micro_tools_uses`, unless `micro_tools_pro` is 'true', then show modal linking to {STRIPE_PAYMENT_LINK}) and AdSense slots. Return ONLY valid TSX code."),
-    "10_seo_writer": ("gemini-3.8-flash", "You are Agent 10 (SEO). Add an FAQ section and JSON-LD schema inside the React component. Return ONLY the complete TSX code."),
-    "11_qa_tester": ("gemini-3.8-flash", "You are Agent 11 (QA). Check for syntax or TypeScript errors. Output 'PASS' if flawless, or list bugs."),
-    "12_security": ("gemini-3.8-flash", "You are Agent 12 (Security). Check for XSS or unsafe eval. Output 'PASS' or list issues."),
-    "13_debugger": ("gemini-3.8-flash", "You are Agent 13 (Debugger). Fix all reported bugs and return ONLY the complete TSX code inside a ```tsx codeblock."),
-    "14_devops": ("gemini-3.8-flash", "You are Agent 14 (DevOps). Output ONLY raw JSON with keys: `slug` (lowercase hyphenated), `title`, `tagline`, and `category`."),
-    "15_growth_copy": ("gemini-3.8-flash", "You are Agent 15 (Growth). Write a launch tweet and Reddit post.")
+    "1_orchestrator": ("deepseek/deepseek-chat", "You are Agent 1 (Orchestrator). Ensure the tool spec is 100% stateless and requires zero database."),
+    "2_seo_scout": ("deepseek/deepseek-chat", "You are Agent 2 (SEO Scout). Output ONE high-traffic, low-competition micro-tool niche (calculator, converter, formatter). Do NOT repeat existing slugs."),
+    "3_pm_spec": ("deepseek/deepseek-chat", "You are Agent 3 (PM). Turn the SEO niche into a strict functional specification for a single-page web tool."),
+    "4_architect": ("deepseek/deepseek-chat", "You are Agent 4 (Architect). Define component state, inputs, outputs, and edge cases."),
+    "5_algo_designer": ("deepseek/deepseek-chat", "You are Agent 5 (Algorithm Designer). Write exact formulas and transformation logic."),
+    "6_ui_designer": ("deepseek/deepseek-chat", "You are Agent 6 (UI/UX). Specify a clean dark-mode Tailwind CSS layout with a '← Back to All Tools' link to `/`."),
+    "7_frontend_lead": ("deepseek/deepseek-chat", "You are Agent 7 (Frontend Lead). Write a complete Next.js App Router React page (`page.tsx`) using `'use client'` and Tailwind CSS. No external icon libraries. Write 100% working code."),
+    "8_api_lead": ("deepseek/deepseek-chat", "You are Agent 8 (API Lead). Write a matching Next.js API route (`route.ts`) exporting `POST` using `NextResponse`."),
+    "9_monetization": ("deepseek/deepseek-chat", f"You are Agent 9 (Monetization). Inject a localStorage freemium gate (3 free uses in `micro_tools_uses`, unless `micro_tools_pro` is 'true', then show modal linking to {STRIPE_PAYMENT_LINK}) and AdSense slots. Return ONLY valid TSX code."),
+    "10_seo_writer": ("deepseek/deepseek-chat", "You are Agent 10 (SEO). Add an FAQ section and JSON-LD schema inside the React component. Return ONLY the complete TSX code."),
+    "11_qa_tester": ("deepseek/deepseek-chat", "You are Agent 11 (QA). Check for syntax or TypeScript errors. Output 'PASS' if flawless, or list bugs."),
+    "12_security": ("deepseek/deepseek-chat", "You are Agent 12 (Security). Check for XSS or unsafe eval. Output 'PASS' or list issues."),
+    "13_debugger": ("deepseek/deepseek-chat", "You are Agent 13 (Debugger). Fix all reported bugs and return ONLY the complete TSX code inside a ```tsx codeblock."),
+    "14_devops": ("deepseek/deepseek-chat", "You are Agent 14 (DevOps). Output ONLY raw JSON with keys: `slug` (lowercase hyphenated), `title`, `tagline`, and `category`."),
+    "15_growth_copy": ("deepseek/deepseek-chat", "You are Agent 15 (Growth). Write a launch tweet and Reddit post.")
 }
+
+from openai import OpenAI
+import os
+
+# Initialize OpenRouter client
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.environ.get("GEMINI_API_KEY"),
+)
 
 def ask_agent(agent_id: str, prompt: str) -> str:
     model_name, sys_inst = AGENTS[agent_id]
     print(f"🤖 Running {agent_id}...")
-    res = client.models.generate_content(
-        model=model_name, contents=prompt,
-        config=types.GenerateContentConfig(system_instruction=sys_inst, temperature=0.2)
+    response = client.chat.completions.create(
+        model=model_name,
+        messages=[
+            {"role": "system", "content": sys_inst},
+            {"role": "user", "content": prompt}
+        ],
+        extra_headers={
+            "HTTP-Referer": "https://github.com/jessonjamesmail-lgtm/agent-factory",
+            "X-Title": "Agent Factory",
+        }
     )
-    return res.text.strip()
+    return response.choices[0].message.content.strip()
+    
+    
 
 def extract_code(text: str) -> str:
     ticks = chr(96) * 3
