@@ -9,44 +9,21 @@ REGISTRY_PATH = APP_ROOT / "tools_registry.json"
 STRIPE_PAYMENT_LINK = "https://buy.stripe.com/YOUR_LIVE_STRIPE_LINK"
 
 AGENTS = {
-    "1_orchestrator": ("gemini-2.5-pro", "You are Agent 1 (Orchestrator). Ensure the tool spec is 100% stateless and requires zero database."),
-    "2_seo_scout": ("gemini-2.5-flash", "You are Agent 2 (SEO Scout). Output ONE high-traffic, low-competition micro-tool niche (calculator, converter, formatter). Do NOT repeat existing slugs."),
-    "3_pm_spec": ("gemini-2.5-flash", "You are Agent 3 (PM). Turn the SEO niche into a strict functional specification for a single-page web tool."),
-    "4_architect": ("gemini-2.5-pro", "You are Agent 4 (Architect). Define component state, inputs, outputs, and edge cases."),
-    "5_algo_designer": ("gemini-2.5-pro", "You are Agent 5 (Algorithm Designer). Write exact formulas and transformation logic."),
-    "6_ui_designer": ("gemini-2.5-flash", "You are Agent 6 (UI/UX). Specify a clean dark-mode Tailwind CSS layout with a '← Back to All Tools' link to `/`."),
-    "7_frontend_lead": ("gemini-2.5-pro", "You are Agent 7 (Frontend Lead). Write a complete Next.js App Router React page (`page.tsx`) using `'use client'` and Tailwind CSS. No external icon libraries. Write 100% working code."),
-    "8_api_lead": ("gemini-2.5-pro", "You are Agent 8 (API Lead). Write a matching Next.js API route (`route.ts`) exporting `POST` using `NextResponse`."),
-    "9_monetization": ("gemini-2.5-pro", f"You are Agent 9 (Monetization). Inject a localStorage freemium gate (3 free uses in `micro_tools_uses`, unless `micro_tools_pro` is 'true', then show modal linking to {STRIPE_PAYMENT_LINK}) and AdSense slots. Return ONLY valid TSX code."),
-    "10_seo_writer": ("gemini-2.5-flash", "You are Agent 10 (SEO). Add an FAQ section and JSON-LD schema inside the React component. Return ONLY the complete TSX code."),
-    "11_qa_tester": ("gemini-2.5-flash", "You are Agent 11 (QA). Check for syntax or TypeScript errors. Output 'PASS'
-cat << 'EOF' > factory.py
-import os, json, pathlib
-from datetime import datetime, timezone
-from google import genai
-from google.genai import types
-
-client = genai.Client()
-APP_ROOT = pathlib.Path("./output_app")
-REGISTRY_PATH = APP_ROOT / "tools_registry.json"
-STRIPE_PAYMENT_LINK = "https://buy.stripe.com/YOUR_LIVE_STRIPE_LINK"
-
-AGENTS = {
-    "1_orchestrator": ("gemini-2.5-pro", "You are Agent 1 (Orchestrator). Ensure the tool spec is 100% stateless and requires zero database."),
-    "2_seo_scout": ("gemini-2.5-flash", "You are Agent 2 (SEO Scout). Output ONE high-traffic, low-competition micro-tool niche (calculator, converter, formatter). Do NOT repeat existing slugs."),
-    "3_pm_spec": ("gemini-2.5-flash", "You are Agent 3 (PM). Turn the SEO niche into a strict functional specification for a single-page web tool."),
-    "4_architect": ("gemini-2.5-pro", "You are Agent 4 (Architect). Define component state, inputs, outputs, and edge cases."),
-    "5_algo_designer": ("gemini-2.5-pro", "You are Agent 5 (Algorithm Designer). Write exact formulas and transformation logic."),
-    "6_ui_designer": ("gemini-2.5-flash", "You are Agent 6 (UI/UX). Specify a clean dark-mode Tailwind CSS layout with a '← Back to All Tools' link to `/`."),
-    "7_frontend_lead": ("gemini-2.5-pro", "You are Agent 7 (Frontend Lead). Write a complete Next.js App Router React page (`page.tsx`) using `'use client'` and Tailwind CSS. No external icon libraries. Write 100% working code."),
-    "8_api_lead": ("gemini-2.5-pro", "You are Agent 8 (API Lead). Write a matching Next.js API route (`route.ts`) exporting `POST` using `NextResponse`."),
-    "9_monetization": ("gemini-2.5-pro", f"You are Agent 9 (Monetization). Inject a localStorage freemium gate (3 free uses in `micro_tools_uses`, unless `micro_tools_pro` is 'true', then show modal linking to {STRIPE_PAYMENT_LINK}) and AdSense slots. Return ONLY valid TSX code."),
-    "10_seo_writer": ("gemini-2.5-flash", "You are Agent 10 (SEO). Add an FAQ section and JSON-LD schema inside the React component. Return ONLY the complete TSX code."),
-    "11_qa_tester": ("gemini-2.5-flash", "You are Agent 11 (QA). Check for syntax or TypeScript errors. Output 'PASS' if flawless, or list bugs."),
-    "12_security": ("gemini-2.5-flash", "You are Agent 12 (Security). Check for XSS or unsafe eval. Output 'PASS' or list issues."),
-    "13_debugger": ("gemini-2.5-pro", "You are Agent 13 (Debugger). Fix all reported bugs and return ONLY the complete TSX code inside a ```tsx codeblock."),
-    "14_devops": ("gemini-2.5-flash", "You are Agent 14 (DevOps). Output ONLY raw JSON with keys: `slug` (lowercase hyphenated), `title`, `tagline`, and `category`."),
-    "15_growth_copy": ("gemini-2.5-flash", "You are Agent 15 (Growth). Write a launch tweet and Reddit post.")
+    "1_orchestrator": ("gemini-3.8-flash", "You are Agent 1 (Orchestrator). Ensure the tool spec is 100% stateless and requires zero database."),
+    "2_seo_scout": ("gemini-3.8-flash", "You are Agent 2 (SEO Scout). Output ONE high-traffic, low-competition micro-tool niche (calculator, converter, formatter). Do NOT repeat existing slugs."),
+    "3_pm_spec": ("gemini-3.8-flash", "You are Agent 3 (PM). Turn the SEO niche into a strict functional specification for a single-page web tool."),
+    "4_architect": ("gemini-3.8-flash", "You are Agent 4 (Architect). Define component state, inputs, outputs, and edge cases."),
+    "5_algo_designer": ("gemini-3.8-flash", "You are Agent 5 (Algorithm Designer). Write exact formulas and transformation logic."),
+    "6_ui_designer": ("gemini-3.8-flash", "You are Agent 6 (UI/UX). Specify a clean dark-mode Tailwind CSS layout with a '← Back to All Tools' link to `/`."),
+    "7_frontend_lead": ("gemini-3.8-flash", "You are Agent 7 (Frontend Lead). Write a complete Next.js App Router React page (`page.tsx`) using `'use client'` and Tailwind CSS. No external icon libraries. Write 100% working code."),
+    "8_api_lead": ("gemini-3.8-flash", "You are Agent 8 (API Lead). Write a matching Next.js API route (`route.ts`) exporting `POST` using `NextResponse`."),
+    "9_monetization": ("gemini-3.8-flash", f"You are Agent 9 (Monetization). Inject a localStorage freemium gate (3 free uses in `micro_tools_uses`, unless `micro_tools_pro` is 'true', then show modal linking to {STRIPE_PAYMENT_LINK}) and AdSense slots. Return ONLY valid TSX code."),
+    "10_seo_writer": ("gemini-3.8-flash", "You are Agent 10 (SEO). Add an FAQ section and JSON-LD schema inside the React component. Return ONLY the complete TSX code."),
+    "11_qa_tester": ("gemini-3.8-flash", "You are Agent 11 (QA). Check for syntax or TypeScript errors. Output 'PASS' if flawless, or list bugs."),
+    "12_security": ("gemini-3.8-flash", "You are Agent 12 (Security). Check for XSS or unsafe eval. Output 'PASS' or list issues."),
+    "13_debugger": ("gemini-3.8-flash", "You are Agent 13 (Debugger). Fix all reported bugs and return ONLY the complete TSX code inside a ```tsx codeblock."),
+    "14_devops": ("gemini-3.8-flash", "You are Agent 14 (DevOps). Output ONLY raw JSON with keys: `slug` (lowercase hyphenated), `title`, `tagline`, and `category`."),
+    "15_growth_copy": ("gemini-3.8-flash", "You are Agent 15 (Growth). Write a launch tweet and Reddit post.")
 }
 
 def ask_agent(agent_id: str, prompt: str) -> str:
@@ -59,38 +36,41 @@ def ask_agent(agent_id: str, prompt: str) -> str:
     return res.text.strip()
 
 def extract_code(text: str) -> str:
-    if "```" in text:
-        for part in text.split("```")[1::2]:
-            lines = part.split("\n")
-            return "\n".join(lines[1:]).strip() if lines[0].strip().isalpha() else part.strip()
+    ticks = chr(96) * 3
+    if ticks in text:
+        for part in text.split(ticks)[1::2]:
+            lines = part.splitlines()
+            return "\n".join(lines[1:]).strip() if lines and lines[0].strip().isalpha() else part.strip()
     return text.strip()
 
 def update_homepage(registry: list):
     reg_json = json.dumps(registry, indent=2)
-    tsx = f"""import Link from 'next/link';
-const TOOLS = {reg_json};
-export default function HomePage() {{
-  return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 py-16 px-6">
-      <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-14">
-          <h1 className="text-4xl font-extrabold mb-3">Free Instant Web Utilities ({{TOOLS.length}} Live)</h1>
-          <p className="text-slate-400">Fast, browser-based calculators, formatters, and converters.</p>
-        </header>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {{TOOLS.map((t) => (
-            <Link className="block p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500 rounded-2xl" href="{{`/tools/${{t.slug}}`}}" key="{{t.slug}}">
-              <span className="text-xs px-2 py-1 rounded bg-slate-800 text-indigo-300">{{t.category}}</span>
-              <h2 className="text-xl font-bold text-white mt-3 mb-2">{{t.title}} →</h2>
-              <p className="text-sm text-slate-400">{{t.tagline}}</p>
-            </Link>
-          ))}}
-        </div>
-      </div>
-    </main>
-  );
-}}"""
-    (APP_ROOT / "app" / "page.tsx").write_text(tsx, encoding="utf-8")
+    lines = [
+        "import Link from 'next/link';",
+        f"const TOOLS = {reg_json};",
+        "export default function HomePage() {",
+        "  return (",
+        '    <main className="min-h-screen bg-slate-950 text-slate-100 py-16 px-6">',
+        '      <div className="max-w-6xl mx-auto">',
+        '        <header className="text-center mb-14">',
+        '          <h1 className="text-4xl font-extrabold mb-3">Free Instant Web Utilities ({TOOLS.length} Live)</h1>',
+        '          <p className="text-slate-400">Fast, browser-based calculators, formatters, and converters.</p>',
+        '        </header>',
+        '        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">',
+        '          {TOOLS.map((t: any) => (',
+        '            <Link className="block p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500 rounded-2xl" href="{`/tools/${t.slug}`}" key="{t.slug}">',
+        '              <span className="text-xs px-2 py-1 rounded bg-slate-800 text-indigo-300">{t.category}</span>',
+        '              <h2 className="text-xl font-bold text-white mt-3 mb-2">{t.title} →</h2>',
+        '              <p className="text-sm text-slate-400">{t.tagline}</p>',
+        '            </Link>',
+        '          ))}',
+        '        </div>',
+        '      </div>',
+        '    </main>',
+        '  );',
+        '}'
+    ]
+    (APP_ROOT / "app" / "page.tsx").write_text("\n".join(lines), encoding="utf-8")
 
 def run():
     reg = json.loads(REGISTRY_PATH.read_text()) if REGISTRY_PATH.exists() else []
@@ -99,12 +79,12 @@ def run():
     arch = ask_agent("4_architect", spec)
     algo = ask_agent("5_algo_designer", arch)
     ui = ask_agent("6_ui_designer", arch)
-    code = ask_agent("7_frontend_lead", f"Spec:\n{arch}\nAlgo:\n{algo}\nUI:\n{ui}")
+    code = ask_agent("7_frontend_lead", f"Spec: {arch} | Algo: {algo} | UI: {ui}")
     api = ask_agent("8_api_lead", algo)
     code = ask_agent("10_seo_writer", ask_agent("9_monetization", code))
     qa, sec = ask_agent("11_qa_tester", code), ask_agent("12_security", code)
     if "PASS" not in qa.upper() or "PASS" not in sec.upper():
-        code = ask_agent("13_debugger", f"Code:\n{code}\nQA:\n{qa}\nSec:\n{sec}")
+        code = ask_agent("13_debugger", f"Code: {code} | QA: {qa} | Sec: {sec}")
     try:
         meta = json.loads(extract_code(ask_agent("14_devops", niche)))
     except Exception:
