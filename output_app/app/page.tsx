@@ -17,8 +17,8 @@ export default function HomePage() {
           <p className="text-slate-400">Fast, browser-based calculators, formatters, and converters.</p>
         </header>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TOOLS.map((t: any) => (
-            <Link className="block p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500 rounded-2xl" href="{`/tools/${t.slug}`}" key="{t.slug}">
+          {TOOLS.map((t) => (
+            <Link className="block p-6 bg-slate-900 border border-slate-800 hover:border-indigo-500 rounded-2xl" href={`/tools/${t.slug}`} key={t.slug}>
               <span className="text-xs px-2 py-1 rounded bg-slate-800 text-indigo-300">{t.category}</span>
               <h2 className="text-xl font-bold text-white mt-3 mb-2">{t.title} →</h2>
               <p className="text-sm text-slate-400">{t.tagline}</p>
